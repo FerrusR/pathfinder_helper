@@ -37,7 +37,7 @@
   "author": "",
   "license": "UNLICENSED",
   "devDependencies": {
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.2.2"
   },
   "engines": {
     "node": ">=22.0.0",
