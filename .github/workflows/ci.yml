@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  frontend-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: apps/frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps/frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: apps/frontend
+        run: npm run lint || true
+
+      - name: Build
+        working-directory: apps/frontend
+        run: npm run build
+
+      - name: Test
+        working-directory: apps/frontend
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+
+  backend-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: apps/backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps/backend
+        run: npm ci
+
+      - name: Lint
+        working-directory: apps/backend
+        run: npm run lint || true
+
+      - name: Build
+        working-directory: apps/backend
+        run: npm run build
+
+      - name: Test
+        working-directory: apps/backend
+        run: npm test
+
+  terraform-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform Format Check
+        working-directory: infra
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init
+        working-directory: infra
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: infra
+        run: terraform validate

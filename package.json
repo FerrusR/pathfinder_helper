@@ -1,0 +1,46 @@
+{
+  "name": "pathfinder-helper",
+  "version": "0.0.1",
+  "description": "Pathfinder 2e Rule Explorer - RAG-powered chatbot with campaign home rules",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend",
+    "scripts"
+  ],
+  "scripts": {
+    "frontend:install": "cd apps/frontend && npm install",
+    "frontend:start": "cd apps/frontend && npm start",
+    "frontend:build": "cd apps/frontend && npm run build",
+    "frontend:test": "cd apps/frontend && npm test",
+    "backend:install": "cd apps/backend && npm install",
+    "backend:start": "cd apps/backend && npm run start:dev",
+    "backend:build": "cd apps/backend && npm run build",
+    "backend:test": "cd apps/backend && npm test",
+    "backend:prisma:generate": "cd apps/backend && npm run prisma:generate",
+    "backend:prisma:migrate": "cd apps/backend && npm run prisma:migrate",
+    "scripts:install": "cd scripts && npm install",
+    "install:all": "npm run frontend:install && npm run backend:install && npm run scripts:install",
+    "dev": "concurrently \"npm run frontend:start\" \"npm run backend:start\"",
+    "terraform:init": "cd infra && terraform init",
+    "terraform:plan": "cd infra && terraform plan",
+    "terraform:apply": "cd infra && terraform apply",
+    "terraform:destroy": "cd infra && terraform destroy"
+  },
+  "keywords": [
+    "pathfinder",
+    "pf2e",
+    "rag",
+    "chatbot",
+    "rules"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}

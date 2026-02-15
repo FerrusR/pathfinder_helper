@@ -1,0 +1,38 @@
+UNLICENSED
+
+This is a private project for personal use.
+
+## Third-Party Licenses and Attribution
+
+### Pathfinder 2e Content
+
+Game mechanics and rules content are used under the ORC License:
+- ORC License: https://paizo.com/community/blog/v5748dyo6sico
+- The ORC License is irrevocable and royalty-free
+
+Paizo-specific intellectual property (setting names, deities, artwork descriptions, etc.)
+is used under the Paizo Community Use Policy:
+- Community Use Policy: https://paizo.com/community/communityuse
+
+This project is non-commercial and for personal use only.
+
+### Data Sources
+
+- Foundry VTT PF2e Data (Apache 2.0): https://github.com/foundryvtt/pf2e
+- Obsidian PF2e SRD Markdown (Community): https://github.com/Obsidian-TTRPG-Community
+
+### Software Dependencies
+
+This project uses various open-source software packages, each with their own licenses.
+See package.json files in apps/frontend, apps/backend, and scripts for full dependency lists.
+
+Major dependencies include:
+- Angular (MIT License)
+- NestJS (MIT License)
+- Prisma (Apache 2.0)
+- PostgreSQL (PostgreSQL License)
+
+## Disclaimer
+
+Pathfinder and associated marks and logos are trademarks of Paizo Inc.
+This project is not affiliated with or endorsed by Paizo Inc.

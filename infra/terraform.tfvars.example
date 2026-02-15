@@ -1,0 +1,16 @@
+# Copy this file to terraform.tfvars and fill in your values
+# DO NOT commit terraform.tfvars to version control
+
+azure_subscription_id = "your-azure-subscription-id"
+project_name          = "pathfinder-helper"
+environment           = "dev"
+location              = "eastus"
+openai_location       = "eastus"
+db_admin_username     = "pgadmin"
+db_admin_password     = "YourSecurePassword123!"
+
+tags = {
+  Project     = "Pathfinder Helper"
+  Environment = "dev"
+  ManagedBy   = "Terraform"
+}

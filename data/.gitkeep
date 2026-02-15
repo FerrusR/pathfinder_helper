@@ -1,0 +1,2 @@
+# This directory will contain local copies of PF2e data sources
+# It is git-ignored to avoid committing large datasets to the repository

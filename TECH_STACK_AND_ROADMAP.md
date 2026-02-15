@@ -154,11 +154,11 @@ Use the **Obsidian SRD Markdown** as the primary source for the RAG pipeline. Ma
 ### Phase 0: Project Setup & Foundation
 **Goal**: Working dev environment, Azure resources provisioned, empty apps deployed
 
-- [ ] Set up monorepo structure (e.g., `apps/frontend`, `apps/backend`, `infra/`)
-- [ ] Scaffold Angular app with Angular CLI
-- [ ] Scaffold NestJS backend
-- [ ] Write Terraform configs for: Resource Group, PostgreSQL, App Service, Static Web App, Azure OpenAI
-- [ ] Set up GitHub Actions for CI/CD (build + deploy)
+- [X] Set up monorepo structure (e.g., `apps/frontend`, `apps/backend`, `infra/`)
+- [X] Scaffold Angular app with Angular CLI
+- [X] Scaffold NestJS backend
+- [X] Write Terraform configs for: Resource Group, PostgreSQL, App Service, Static Web App, Azure OpenAI
+- [x] Set up GitHub Actions for CI/CD (build + deploy)
 - [ ] Deploy empty apps to Azure to verify infrastructure
 
 **AI usage tips for Phase 0:**
