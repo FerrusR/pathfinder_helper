@@ -22,20 +22,20 @@ resource "azurerm_linux_web_app" "backend" {
     }
 
     cors {
-      allowed_origins = ["*"]
+      allowed_origins     = ["*"]
       support_credentials = false
     }
   }
 
   app_settings = {
-    "NODE_ENV"                                = "production"
-    "DATABASE_URL"                            = var.database_url
-    "AZURE_OPENAI_API_KEY"                    = var.openai_key
-    "AZURE_OPENAI_ENDPOINT"                   = var.openai_endpoint
-    "AZURE_OPENAI_DEPLOYMENT_NAME"            = "gpt-4o"
+    "NODE_ENV"                               = "production"
+    "DATABASE_URL"                           = var.database_url
+    "AZURE_OPENAI_API_KEY"                   = var.openai_key
+    "AZURE_OPENAI_ENDPOINT"                  = var.openai_endpoint
+    "AZURE_OPENAI_DEPLOYMENT_NAME"           = "gpt-4o"
     "AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME" = "text-embedding-3-small"
-    "JWT_SECRET"                              = random_password.jwt_secret.result
-    "JWT_EXPIRATION"                          = "7d"
+    "JWT_SECRET"                             = random_password.jwt_secret.result
+    "JWT_EXPIRATION"                         = "7d"
     "SCM_DO_BUILD_DURING_DEPLOYMENT"         = "true"
   }
 
