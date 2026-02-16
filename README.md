@@ -1,6 +1,6 @@
 # Pathfinder Rule Explorer
 
-A RAG-powered chatbot for Pathfinder 2e rules with campaign-specific home rules support.
+A RAG-powered chatbot for Pathfinder 2e rules with campaign-specific home rules support. This application is my personal experiment on how far can I get using mostly AI agents for development while working with unfamiliar to me frameworks.
 
 ## Overview
 

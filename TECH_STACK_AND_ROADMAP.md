@@ -159,7 +159,7 @@ Use the **Obsidian SRD Markdown** as the primary source for the RAG pipeline. Ma
 - [X] Scaffold NestJS backend
 - [X] Write Terraform configs for: Resource Group, PostgreSQL, App Service, Static Web App, Azure OpenAI
 - [x] Set up GitHub Actions for CI/CD (build + deploy)
-- [ ] Deploy empty apps to Azure to verify infrastructure
+- [X] Deploy empty apps to Azure to verify infrastructure
 
 **AI usage tips for Phase 0:**
 - Use Claude Code to generate Terraform configurations — describe the resources you need and it can produce the HCL

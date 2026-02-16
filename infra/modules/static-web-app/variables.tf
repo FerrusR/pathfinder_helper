@@ -18,9 +18,15 @@ variable "environment" {
   type        = string
 }
 
-variable "backend_url" {
-  description = "Backend API URL"
+variable "azure_auth_client_id" {
+  description = "Azure AD App Registration client ID for authentication"
   type        = string
+}
+
+variable "azure_auth_client_secret" {
+  description = "Azure AD App Registration client secret for authentication"
+  type        = string
+  sensitive   = true
 }
 
 variable "tags" {
