@@ -11,7 +11,7 @@ terraform {
   # Uncomment this block to use Azure Storage for Terraform state
   backend "azurerm" {
     resource_group_name  = "terraform-state-rg"
-    storage_account_name = "tfstateXXXXX"
+    storage_account_name = "tfstatepf2e"
     container_name       = "tfstate"
     key                  = "pathfinder-helper.tfstate"
   }
