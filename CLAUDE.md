@@ -44,7 +44,10 @@ Each feature lives in `apps/frontend/src/app/features/[feature]/`:
 - Prisma schema at `apps/backend/prisma/schema.prisma`
 - Relational tables: users, campaigns, campaign_members, home_rules, invites
 - Vector tables: rule_chunks, home_rule_chunks (pgvector for embeddings)
-- Always run `npm run backend:prisma:migrate` after schema changes
+- Migration workflow (two-step to protect manually-managed pgvector HNSW indexes):
+  1. `npm run backend:prisma:migrate:create` — generates SQL without applying
+  2. Review the SQL — remove any `DROP INDEX` on `rule_chunks_embedding_idx` or `home_rule_chunks_embedding_idx`
+  3. `npm run backend:prisma:migrate:apply` — applies the migration
 - Never modify the database directly — use Prisma migrations
 
 ### AI Prompts
@@ -78,4 +81,3 @@ Each feature lives in `apps/frontend/src/app/features/[feature]/`:
 - Backend uses a global ValidationPipe (whitelist, forbidNonWhitelisted, transform)
 - Terraform files must pass `terraform fmt -check -recursive` before merge
 - See @TECH_STACK_AND_ROADMAP.md for current development phase and detailed roadmap
-- See @CONTRIBUTING.md for PR and contribution process

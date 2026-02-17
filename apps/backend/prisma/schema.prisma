@@ -119,6 +119,8 @@ model RuleChunk {
   metadata   Json?
   createdAt  DateTime                        @default(now()) @map("created_at")
 
+  // HNSW index on embedding column managed via migration SQL (Prisma doesn't support pgvector indexes natively)
+  // See: 20260216120000_add_pgvector_embeddings/migration.sql — rule_chunks_embedding_idx
   @@map("rule_chunks")
 }
 
@@ -133,5 +135,7 @@ model HomeRuleChunk {
   metadata   Json?
   createdAt  DateTime                        @default(now()) @map("created_at")
 
+  // HNSW index on embedding column managed via migration SQL (Prisma doesn't support pgvector indexes natively)
+  // See: 20260216120000_add_pgvector_embeddings/migration.sql — home_rule_chunks_embedding_idx
   @@map("home_rule_chunks")
 }
