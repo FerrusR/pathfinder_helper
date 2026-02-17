@@ -5,13 +5,19 @@
   "private": true,
   "scripts": {
     "ingest": "ts-node ingest-rules.ts",
+    "analyze": "ts-node analyze-data.ts",
     "test-retrieval": "ts-node test-retrieval.ts"
   },
   "dependencies": {
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "html-to-text": "^9.0.0",
+    "openai": "^4.0.0",
+    "pg": "^8.13.0"
   },
   "devDependencies": {
+    "@types/html-to-text": "^9.0.0",
     "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
     "ts-node": "^10.9.1",
     "typescript": "~5.6.0"
   }
