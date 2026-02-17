@@ -136,8 +136,8 @@ See [TECH_STACK_AND_ROADMAP.md](./TECH_STACK_AND_ROADMAP.md) for the complete te
 ### Current Phase: Phase 0 - Project Setup ✅
 
 - [x] Monorepo structure setup
-- [ ] Deploy empty apps to Azure to verify infrastructure
-- [ ] Set up GitHub Actions CI/CD
+- [x] Deploy empty apps to Azure to verify infrastructure
+- [x] Set up GitHub Actions CI/CD
 
 ### Upcoming Phases
 

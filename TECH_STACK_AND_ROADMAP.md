@@ -24,7 +24,7 @@ Archives of Nethys (aonprd.com) has **no API or structured export**. However, ex
 
 ### Recommendation
 
-Use the **Obsidian SRD Markdown** as the primary source for the RAG pipeline. Markdown with YAML frontmatter is ideal for chunking and embedding — it's already in a human-readable text format that LLMs handle well. Supplement with **Foundry VTT JSON** for structured mechanical data (stats, modifiers) when needed.
+Use the **Foundry VTT PF2e JSON** as the primary source for the RAG pipeline. While the Obsidian SRD Markdown was originally considered, it is outdated and itself derived from the Foundry VTT data. The Foundry JSON files provide the most comprehensive and up-to-date coverage, with structured metadata (traits, levels, publication info) and HTML descriptions that are converted to clean text during ingestion.
 
 ### Legal
 
@@ -171,31 +171,37 @@ Use the **Obsidian SRD Markdown** as the primary source for the RAG pipeline. Ma
 ### Phase 1: Data Ingestion Pipeline
 **Goal**: Pathfinder 2e rules loaded into PostgreSQL with vector embeddings
 
-- [ ] Clone the Obsidian PF2e SRD Markdown repo
-- [ ] Write an ingestion script (Node.js) that:
-  - Reads markdown files
-  - Parses YAML frontmatter for metadata (category, source book, level, traits)
-  - Chunks content intelligently (by section/heading, not arbitrary character count)
-  - Generates embeddings via Azure OpenAI
-  - Stores chunks + embeddings + metadata in PostgreSQL (pgvector)
-- [ ] Design the `rule_chunks` table schema:
+- [x] Copy Foundry VTT PF2e data into `data/pf2e/`
+- [x] Set up local PostgreSQL with pgvector via Docker Compose
+- [x] Add pgvector extension and embedding columns via Prisma migration
+- [x] Write ingestion pipeline (`scripts/`) that:
+  - Discovers and categorizes JSON files across 16 content categories
+  - Parses Foundry VTT JSON, extracting `system.description.value` HTML content
+  - Converts Foundry-specific notation (@UUID, @Damage, @Check, @Template, @Embed, @Localize) to clean text
+  - Chunks content intelligently (single chunk for most items, heading-based splits for journal pages)
+  - Generates embeddings via Azure OpenAI (text-embedding-3-small, 1536 dimensions)
+  - Stores chunks + embeddings + metadata in PostgreSQL (pgvector) via raw SQL
+- [x] Design the `rule_chunks` table schema:
   ```sql
   CREATE TABLE rule_chunks (
-    id UUID PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     title TEXT,
-    category TEXT,          -- spell, feat, condition, action, etc.
-    source TEXT,             -- source book
-    content TEXT,            -- the actual rule text chunk
-    embedding vector(1536),  -- pgvector column
-    metadata JSONB,          -- flexible metadata (level, traits, etc.)
+    category TEXT,              -- spell, feat, condition, action, etc.
+    source TEXT,                 -- source book
+    content TEXT,                -- the actual rule text chunk
+    embedding vector(1536),      -- pgvector column (HNSW indexed)
+    source_id TEXT,              -- Foundry _id for deduplication
+    source_file TEXT,            -- source file path for traceability
+    metadata JSONB,              -- flexible metadata (level, traits, etc.)
     created_at TIMESTAMP
   );
   ```
-- [ ] Run ingestion, verify search quality with test queries
-- [ ] Create a re-ingestion script for when upstream data updates
+- [x] Write data analysis script (`scripts/analyze-data.ts`) for dry-run validation
+- [ ] Run full ingestion, verify search quality with test queries
+- [x] Ingestion supports re-ingestion via `--clear` flag
 
 **AI usage tips for Phase 1:**
-- Have Claude Code write the markdown parser and chunking logic — this is a great task for AI since it's largely string processing with clear rules
+- Have Claude Code write the JSON parser and chunking logic — this is a great task for AI since it's largely string processing with clear rules
 - Use Claude Code to help design the chunking strategy (rules have natural boundaries: one feat = one chunk, one spell = one chunk, longer rules may need splitting)
 - Test embedding quality interactively: ask Claude Code to help you write test queries and evaluate retrieval results
 

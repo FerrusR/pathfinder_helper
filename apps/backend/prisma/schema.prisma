@@ -108,30 +108,30 @@ enum HomeRuleStatus {
 
 // Vector embeddings for RAG
 model RuleChunk {
-  id        String   @id @default(uuid())
-  title     String
-  category  String?
-  source    String?
-  content   String
-  // embedding will be a vector(1536) column - requires pgvector extension
-  // This will be added via a migration after pgvector is enabled
-  metadata  Json?
-  createdAt DateTime @default(now()) @map("created_at")
+  id         String                          @id @default(uuid())
+  title      String
+  category   String?
+  source     String?
+  content    String
+  embedding  Unsupported("vector(1536)")?
+  sourceId   String?                         @map("source_id")
+  sourceFile String?                         @map("source_file")
+  metadata   Json?
+  createdAt  DateTime                        @default(now()) @map("created_at")
 
   @@map("rule_chunks")
 }
 
 model HomeRuleChunk {
-  id         String   @id @default(uuid())
-  homeRuleId String   @map("home_rule_id")
-  campaignId String?  @map("campaign_id")
+  id         String                          @id @default(uuid())
+  homeRuleId String                          @map("home_rule_id")
+  campaignId String?                         @map("campaign_id")
   title      String
   category   String?
   content    String
-  // embedding will be a vector(1536) column - requires pgvector extension
-  // This will be added via a migration after pgvector is enabled
+  embedding  Unsupported("vector(1536)")?
   metadata   Json?
-  createdAt  DateTime @default(now()) @map("created_at")
+  createdAt  DateTime                        @default(now()) @map("created_at")
 
   @@map("home_rule_chunks")
 }
