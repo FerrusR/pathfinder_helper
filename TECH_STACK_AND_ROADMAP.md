@@ -222,12 +222,12 @@ Use the **Foundry VTT PF2e JSON** as the primary source for the RAG pipeline. Wh
   - Instructions to cite specific rules
   - Instructions to say "I'm not sure" rather than hallucinate
   - Instructions to reference the specific source (book, page/section)
-- [ ] Frontend: Build chat component:
+- [x] Frontend: Build chat component:
   - Message list (user + assistant messages)
   - Input field with send button
   - Streaming response display
   - Citation/source display for referenced rules
-- [ ] Test with real PF2e rules questions, iterate on:
+- [x] Test with real PF2e rules questions, iterate on:
   - Retrieval quality (adjust chunk size, top-K, similarity threshold)
   - Prompt engineering (system prompt refinement)
   - Response quality
