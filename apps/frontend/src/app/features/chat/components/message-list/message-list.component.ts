@@ -13,7 +13,8 @@ import { MessageBubbleComponent } from '../message-bubble/message-bubble.compone
       }
       @empty {
         <div class="empty-state">
-          Ask a question about Pathfinder 2e rules to get started.
+          <div class="empty-icon">&#9876;</div>
+          <div class="empty-text">Ask a question about Pathfinder 2e rules to begin your quest.</div>
         </div>
       }
     </div>
@@ -31,13 +32,40 @@ import { MessageBubbleComponent } from '../message-bubble/message-bubble.compone
       padding: 16px;
       display: flex;
       flex-direction: column;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #4a3828;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: #5a4838;
+        }
+      }
     }
 
     .empty-state {
       margin: auto;
       text-align: center;
-      color: rgba(0, 0, 0, 0.45);
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      opacity: 0.3;
+      margin-bottom: 12px;
+    }
+
+    .empty-text {
+      color: #a89880;
       font-size: 14px;
+      font-style: italic;
     }
   `],
 })

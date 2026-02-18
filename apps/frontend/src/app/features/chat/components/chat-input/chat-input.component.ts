@@ -22,7 +22,6 @@ import { MatButtonModule } from '@angular/material/button';
       </mat-form-field>
       <button
         mat-icon-button
-        color="primary"
         class="send-button"
         (click)="submit()"
         [disabled]="disabled() || !value.trim()"
@@ -37,6 +36,8 @@ import { MatButtonModule } from '@angular/material/button';
       align-items: center;
       gap: 8px;
       padding: 8px 16px 16px;
+      border-top: 1px solid #4a3828;
+      background-color: rgba(0, 0, 0, 0.15);
     }
 
     .input-field {
@@ -44,7 +45,17 @@ import { MatButtonModule } from '@angular/material/button';
     }
 
     .send-button {
+      color: #c9a84c;
       margin-bottom: 20px;
+
+      &:hover:not(:disabled) {
+        color: #f4e8c1;
+        background-color: rgba(139, 26, 26, 0.3);
+      }
+
+      &:disabled {
+        color: #4a3828;
+      }
     }
   `],
 })

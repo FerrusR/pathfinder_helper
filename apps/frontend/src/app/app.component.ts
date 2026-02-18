@@ -5,15 +5,12 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `
-    <h1>Pathfinder Rule Explorer</h1>
-    <router-outlet />
-  `,
+  template: `<router-outlet />`,
   styles: [`
-    h1 {
-      text-align: center;
-      color: #1976d2;
-      margin: 2rem 0;
+    :host {
+      display: block;
+      height: 100vh;
+      overflow: hidden;
     }
   `]
 })
