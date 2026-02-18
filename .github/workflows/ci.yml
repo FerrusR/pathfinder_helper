@@ -59,6 +59,8 @@ jobs:
 
       - name: Generate Prisma Client and Build
         working-directory: apps/backend
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx prisma generate && npm run build
 
       - name: Test
