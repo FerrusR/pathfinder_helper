@@ -197,7 +197,7 @@ Use the **Foundry VTT PF2e JSON** as the primary source for the RAG pipeline. Wh
   );
   ```
 - [x] Write data analysis script (`scripts/analyze-data.ts`) for dry-run validation
-- [ ] Run full ingestion, verify search quality with test queries
+- [x] Run full ingestion, verify search quality with test queries
 - [x] Ingestion supports re-ingestion via `--clear` flag
 
 **AI usage tips for Phase 1:**
@@ -210,24 +210,24 @@ Use the **Foundry VTT PF2e JSON** as the primary source for the RAG pipeline. Wh
 ### Phase 2: Core Chatbot (RAW Mode)
 **Goal**: Working chat UI that answers Pathfinder rules questions using RAG
 
-- [ ] Backend: Create chat endpoint (POST /api/chat) that:
+- [x] Backend: Create chat endpoint (POST /api/chat) that:
   - Accepts user message + conversation history
   - Embeds the query
   - Searches pgvector for top-K relevant rule chunks
   - Constructs prompt with system instructions + retrieved rules + conversation
   - Calls Azure OpenAI GPT-4o
   - Streams response back via SSE (Server-Sent Events)
-- [ ] Design system prompt for the chatbot:
+- [x] Design system prompt for the chatbot:
   - "You are a Pathfinder 2e rules expert..."
   - Instructions to cite specific rules
   - Instructions to say "I'm not sure" rather than hallucinate
   - Instructions to reference the specific source (book, page/section)
-- [ ] Frontend: Build chat component:
+- [x] Frontend: Build chat component:
   - Message list (user + assistant messages)
   - Input field with send button
   - Streaming response display
   - Citation/source display for referenced rules
-- [ ] Test with real PF2e rules questions, iterate on:
+- [x] Test with real PF2e rules questions, iterate on:
   - Retrieval quality (adjust chunk size, top-K, similarity threshold)
   - Prompt engineering (system prompt refinement)
   - Response quality
@@ -430,7 +430,11 @@ pathfinder_helper/
 │       │   └── test-helpers.ts    # Shared test utilities
 │       ├── prisma/
 │       │   └── schema.prisma
-│       └── jest.config.js         # Jest configuration
+│       ├── jest.config.js         # Jest configuration
+│       │
+│       └── docs/                  # Minimal docs
+│           └── prompts/           # Version-controlled system prompts
+│               └── chat-system-prompt.md
 │
 ├── infra/                 # Terraform
 │   ├── main.tf
@@ -447,9 +451,5 @@ pathfinder_helper/
 │   ├── ingest-rules.ts
 │   └── test-retrieval.ts
 │
-├── data/                  # Git-ignored; local copy of PF2e data
-│
-└── docs/                  # Minimal docs
-    └── prompts/           # Version-controlled system prompts
-        └── chat-system-prompt.md
+└── data/                  # Git-ignored; local copy of PF2e data
 ```

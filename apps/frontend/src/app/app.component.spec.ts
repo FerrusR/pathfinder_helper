@@ -6,7 +6,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -22,10 +22,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Pathfinder Rule Explorer');
   });
 
-  it('should render title', () => {
+  it('should render a router-outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Pathfinder Rule Explorer');
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });

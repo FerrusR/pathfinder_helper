@@ -1,11 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
+// Fantasy color palette
+$crimson: #8b1a1a;
+$crimson-light: #b22222;
+$gold: #c9a84c;
+$gold-dim: #a68a3e;
+$parchment: #f4e8c1;
+$parchment-dark: #e6d5a0;
+$dark-bg: #1a1410;
+$dark-surface: #2a2118;
+$dark-surface-light: #3a3028;
+$text-light: #e8dcc8;
+$text-dim: #a89880;
+
 html, body {
   height: 100%;
+  overflow: hidden;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Segoe UI', 'Georgia', serif;
+  background-color: $dark-bg;
+  color: $text-light;
+}
+
+// Material overrides for fantasy theme
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #{$crimson-light};
+  --mdc-linear-progress-track-color: #{$dark-surface};
+}
+
+// Material form field theming
+.mat-mdc-form-field {
+  --mdc-outlined-text-field-input-text-color: #{$text-light};
+  --mdc-outlined-text-field-caret-color: #{$gold};
+  --mdc-outlined-text-field-label-text-color: #{$text-dim};
+  --mdc-outlined-text-field-focus-label-text-color: #{$gold};
+  --mdc-outlined-text-field-outline-color: #{$dark-surface-light};
+  --mdc-outlined-text-field-hover-outline-color: #{$crimson};
+  --mdc-outlined-text-field-focus-outline-color: #{$crimson-light};
+  --mdc-outlined-text-field-disabled-input-text-color: #{$text-dim};
 }
