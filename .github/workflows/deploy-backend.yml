@@ -23,9 +23,9 @@ jobs:
         working-directory: apps/backend
         run: npm ci
 
-      - name: Build
+      - name: Generate Prisma Client and Build
         working-directory: apps/backend
-        run: npm run build
+        run: npx prisma generate && npm run build
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
