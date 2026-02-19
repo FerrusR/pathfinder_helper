@@ -15,11 +15,13 @@ import { config } from 'dotenv';
 config({ path: path.join(__dirname, '..', 'apps', 'backend', '.env') });
 
 import { PrismaClient, UserRole } from '../apps/backend/generated/prisma';
+import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcrypt';
 
 async function seedAdmin(): Promise<void> {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
+  const databaseUrl = process.env.DATABASE_URL;
 
   if (!email || !password) {
     console.error(
@@ -28,7 +30,13 @@ async function seedAdmin(): Promise<void> {
     process.exit(1);
   }
 
-  const prisma = new PrismaClient();
+  if (!databaseUrl) {
+    console.error('Error: DATABASE_URL must be set in environment variables or .env file.');
+    process.exit(1);
+  }
+
+  const adapter = new PrismaPg({ connectionString: databaseUrl });
+  const prisma = new PrismaClient({ adapter });
 
   try {
     const existing = await prisma.user.findUnique({ where: { email } });

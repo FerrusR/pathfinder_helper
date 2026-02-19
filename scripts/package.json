@@ -9,6 +9,7 @@
     "test-retrieval": "ts-node test-retrieval.ts"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.4.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.0.0",
     "html-to-text": "^9.0.0",

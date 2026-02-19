@@ -82,6 +82,33 @@ The ingestion pipeline processes 16 content categories from the Foundry VTT data
 
 spell, feat, action, condition, class, ancestry, heritage, background, class-feature, ancestry-feature, equipment, deity, journal, hazard, familiar-ability, bestiary-ability
 
+### seed-admin.ts
+
+Creates the initial admin user in the database. This is a one-time setup step required before any user can log in. If a user with the given email already exists, the script skips creation without error.
+
+Reads credentials from `ADMIN_EMAIL` and `ADMIN_PASSWORD` environment variables, falling back to `apps/backend/.env`.
+
+**Usage:**
+```bash
+# Using values from apps/backend/.env
+npm run seed:admin
+
+# Passing credentials inline (overrides .env)
+ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD=secret npm run seed:admin
+```
+
+**Required environment variables:**
+| Variable | Description |
+|----------|-------------|
+| `ADMIN_EMAIL` | Email address for the admin account |
+| `ADMIN_PASSWORD` | Plaintext password — hashed with bcrypt before storing |
+
+**Notes:**
+- Run this once after initial database migration, before launching the app
+- The password is hashed with bcrypt (cost factor 10) — the plaintext value is never stored
+- If the email already exists in the database, the script exits cleanly with no changes
+- The created user is assigned the `ADMIN` role, granting full access to user management and invite sending
+
 ## Internal Modules
 
 Source code in `src/` is shared across the scripts:
