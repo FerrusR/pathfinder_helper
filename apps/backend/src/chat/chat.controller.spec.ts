@@ -3,6 +3,15 @@ import { of, lastValueFrom, toArray } from 'rxjs';
 import { ChatController } from './chat.controller';
 import { ChatService } from './services/chat.service';
 import { ChatSseEvent } from './types/chat.types';
+import { RequestUser } from '@/common/types/request-user.type';
+import { UserRole } from '../../generated/prisma';
+
+const mockUser: RequestUser = {
+  id: 'user-1',
+  email: 'test@example.com',
+  displayName: 'Test User',
+  role: UserRole.PLAYER,
+};
 
 describe('ChatController', () => {
   let controller: ChatController;
@@ -28,27 +37,28 @@ describe('ChatController', () => {
   });
 
   describe('chat', () => {
-    it('should call ChatService.chat with message and history', () => {
+    it('should call ChatService.chat with message, user, and history', () => {
       const dto = {
         message: 'How does flanking work?',
         conversationHistory: [{ role: 'user' as const, content: 'Hi' }],
       };
-      controller.chat(dto);
+      controller.chat(dto as any, mockUser);
       expect(chatService.chat).toHaveBeenCalledWith(
         'How does flanking work?',
+        mockUser,
         [{ role: 'user', content: 'Hi' }],
       );
     });
 
     it('should call ChatService.chat with undefined history when not provided', () => {
       const dto = { message: 'test' };
-      controller.chat(dto as any);
-      expect(chatService.chat).toHaveBeenCalledWith('test', undefined);
+      controller.chat(dto as any, mockUser);
+      expect(chatService.chat).toHaveBeenCalledWith('test', mockUser, undefined);
     });
 
     it('should return Observable of MessageEvent objects', async () => {
       const dto = { message: 'test', conversationHistory: [] };
-      const result = controller.chat(dto);
+      const result = controller.chat(dto, mockUser);
       const events = await lastValueFrom(result.pipe(toArray()));
 
       expect(events).toHaveLength(3);
@@ -59,7 +69,7 @@ describe('ChatController', () => {
 
     it('should wrap each ChatSseEvent in a data property', async () => {
       const dto = { message: 'test', conversationHistory: [] };
-      const result = controller.chat(dto);
+      const result = controller.chat(dto, mockUser);
       const events = await lastValueFrom(result.pipe(toArray()));
 
       expect(events[0].data).toEqual(mockEvents[0]);

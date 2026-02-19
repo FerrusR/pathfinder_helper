@@ -21,6 +21,7 @@
     "backend:prisma:migrate:create": "cd apps/backend && npm run prisma:migrate:create",
     "backend:prisma:migrate:apply": "cd apps/backend && npm run prisma:migrate:apply",
     "scripts:install": "cd scripts && npm install",
+    "seed:admin": "npx ts-node scripts/seed-admin.ts",
     "install:all": "npm run frontend:install && npm run backend:install && npm run scripts:install",
     "dev": "concurrently \"npm run frontend:start\" \"npm run backend:start\"",
     "terraform:init": "cd infra && terraform init",

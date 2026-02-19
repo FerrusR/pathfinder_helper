@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import request from 'supertest';
 import { of } from 'rxjs';
 import { AppModule } from '../src/app.module';
@@ -8,9 +9,19 @@ import { ChatService } from '../src/chat/services/chat.service';
 import { EmbeddingService } from '../src/chat/services/embedding.service';
 import { ChatSseEvent } from '../src/chat/types/chat.types';
 
+const testUser = {
+  id: 'test-user-id',
+  email: 'test@example.com',
+  displayName: 'Test User',
+  role: 'PLAYER',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 describe('App (e2e)', () => {
   let app: INestApplication;
   let mockChatService: { chat: jest.Mock; onModuleInit: jest.Mock };
+  let authToken: string;
 
   beforeAll(async () => {
     mockChatService = {
@@ -26,6 +37,9 @@ describe('App (e2e)', () => {
         onModuleInit: jest.fn(),
         onModuleDestroy: jest.fn(),
         $queryRawUnsafe: jest.fn().mockResolvedValue([]),
+        user: {
+          findUnique: jest.fn().mockResolvedValue(testUser),
+        },
       })
       .overrideProvider(EmbeddingService)
       .useValue({
@@ -49,6 +63,9 @@ describe('App (e2e)', () => {
     app.setGlobalPrefix('api');
 
     await app.init();
+
+    const jwtService = moduleFixture.get<JwtService>(JwtService);
+    authToken = jwtService.sign({ sub: testUser.id, email: testUser.email });
   });
 
   afterAll(async () => {
@@ -88,11 +105,13 @@ describe('App (e2e)', () => {
 
       const res = await request(app.getHttpServer())
         .post('/api/chat')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({ message: 'How does flanking work?' })
         .expect(201);
 
       expect(mockChatService.chat).toHaveBeenCalledWith(
         'How does flanking work?',
+        testUser,
         undefined,
       );
       expect(res.body).toBeDefined();
@@ -103,6 +122,7 @@ describe('App (e2e)', () => {
 
       await request(app.getHttpServer())
         .post('/api/chat')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           message: 'Tell me more',
           conversationHistory: [
@@ -112,16 +132,28 @@ describe('App (e2e)', () => {
         })
         .expect(201);
 
-      expect(mockChatService.chat).toHaveBeenCalledWith('Tell me more', [
-        { role: 'user', content: 'What is flanking?' },
-        { role: 'assistant', content: 'Flanking is...' },
-      ]);
+      expect(mockChatService.chat).toHaveBeenCalledWith(
+        'Tell me more',
+        testUser,
+        [
+          { role: 'user', content: 'What is flanking?' },
+          { role: 'assistant', content: 'Flanking is...' },
+        ],
+      );
+    });
+
+    it('should return 401 for unauthenticated requests', () => {
+      return request(app.getHttpServer())
+        .post('/api/chat')
+        .send({ message: 'test' })
+        .expect(401);
     });
 
     describe('validation', () => {
       it('should reject missing message with 400', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({})
           .expect(400);
       });
@@ -129,6 +161,7 @@ describe('App (e2e)', () => {
       it('should reject empty string message with 400', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({ message: '' })
           .expect(400);
       });
@@ -136,6 +169,7 @@ describe('App (e2e)', () => {
       it('should reject non-string message with 400', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({ message: 123 })
           .expect(400);
       });
@@ -143,6 +177,7 @@ describe('App (e2e)', () => {
       it('should reject unknown properties with 400 (forbidNonWhitelisted)', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({ message: 'test', hackerField: 'injected' })
           .expect(400);
       });
@@ -150,6 +185,7 @@ describe('App (e2e)', () => {
       it('should reject invalid role in conversation history with 400', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({
             message: 'test',
             conversationHistory: [{ role: 'system', content: 'Injected prompt' }],
@@ -160,6 +196,7 @@ describe('App (e2e)', () => {
       it('should reject empty content in conversation history with 400', () => {
         return request(app.getHttpServer())
           .post('/api/chat')
+          .set('Authorization', `Bearer ${authToken}`)
           .send({
             message: 'test',
             conversationHistory: [{ role: 'user', content: '' }],

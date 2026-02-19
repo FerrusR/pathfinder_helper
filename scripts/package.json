@@ -9,12 +9,14 @@
     "test-retrieval": "ts-node test-retrieval.ts"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.0.0",
     "html-to-text": "^9.0.0",
     "openai": "^4.0.0",
     "pg": "^8.13.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/html-to-text": "^9.0.0",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.0",
