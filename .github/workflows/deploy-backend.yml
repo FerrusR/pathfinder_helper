@@ -20,7 +20,6 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        working-directory: apps/backend
         run: npm ci
 
       - name: Generate Prisma Client and Build
