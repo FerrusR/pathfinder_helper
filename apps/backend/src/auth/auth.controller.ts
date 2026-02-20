@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../common/guards';
 import { Public } from '../common/decorators';
 import { AuthService } from './auth.service';
@@ -26,8 +26,26 @@ export class AuthController {
     schema: { example: { accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' } },
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Request() req: { user: { id: string; email: string } }) {
+  async login(@Request() req: { user: { id: string; email: string; displayName?: string | null; role: string } }) {
     return this.authService.login(req.user);
+  }
+
+  @Public()
+  @Get('invite/:token')
+  @ApiOperation({
+    summary: 'Look up invite details by token',
+    description: 'Returns the email address associated with a valid, unused, non-expired invite token.',
+  })
+  @ApiParam({ name: 'token', description: 'UUID invite token', format: 'uuid' })
+  @ApiResponse({
+    status: 200,
+    description: 'Invite is valid',
+    schema: { example: { email: 'newplayer@example.com' } },
+  })
+  @ApiResponse({ status: 400, description: 'Invite already used or expired' })
+  @ApiResponse({ status: 404, description: 'Invite not found' })
+  getInvite(@Param('token') token: string) {
+    return this.authService.getInviteByToken(token);
   }
 
   @Public()

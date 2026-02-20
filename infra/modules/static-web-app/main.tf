@@ -5,10 +5,5 @@ resource "azurerm_static_web_app" "frontend" {
   sku_tier            = "Standard"
   sku_size            = "Standard"
 
-  app_settings = {
-    "AZURE_AUTH_CLIENT_ID"     = var.azure_auth_client_id
-    "AZURE_AUTH_CLIENT_SECRET" = var.azure_auth_client_secret
-  }
-
   tags = var.tags
 }

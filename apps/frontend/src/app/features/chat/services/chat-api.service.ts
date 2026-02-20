@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../core/services/auth.service';
 import { ChatEvent, ConversationMessage } from '../chat.types';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { ChatEvent, ConversationMessage } from '../chat.types';
 })
 export class ChatApiService {
   private readonly chatUrl = `${environment.apiUrl}/chat`;
+  private readonly authService = inject(AuthService);
 
   sendMessage(
     message: string,
@@ -37,9 +39,13 @@ export class ChatApiService {
     let response: Response;
 
     try {
+      const token = this.authService.getToken();
       response = await fetch(this.chatUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ message, conversationHistory }),
         signal,
       });
@@ -48,6 +54,12 @@ export class ChatApiService {
         subscriber.next({ type: 'error', data: 'Network error: unable to reach the server.' });
         subscriber.complete();
       }
+      return;
+    }
+
+    if (response.status === 401) {
+      this.authService.logout();
+      subscriber.complete();
       return;
     }
 

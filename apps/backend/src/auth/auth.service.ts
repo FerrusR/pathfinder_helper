@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -26,9 +26,38 @@ export class AuthService {
     return userWithoutPassword;
   }
 
-  async login(user: { id: string; email: string }) {
-    const payload = { sub: user.id, email: user.email };
-    return { accessToken: this.jwtService.sign(payload) };
+  async login(user: { id: string; email: string; displayName?: string | null; role?: string }) {
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      displayName: user.displayName ?? null,
+      role: user.role ?? 'PLAYER',
+    };
+    return {
+      accessToken: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        email: user.email,
+        displayName: user.displayName ?? null,
+        role: user.role ?? 'PLAYER',
+      },
+    };
+  }
+
+  async getInviteByToken(token: string): Promise<{ email: string }> {
+    const invite = await this.prisma.invite.findUnique({ where: { token } });
+
+    if (!invite) {
+      throw new NotFoundException('Invite not found');
+    }
+    if (invite.usedAt !== null) {
+      throw new BadRequestException('Invite token has already been used');
+    }
+    if (invite.expiresAt < new Date()) {
+      throw new BadRequestException('Invite token has expired');
+    }
+
+    return { email: invite.email };
   }
 
   async register(dto: RegisterDto) {

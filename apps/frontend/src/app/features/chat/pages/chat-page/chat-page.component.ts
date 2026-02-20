@@ -47,11 +47,16 @@ import { ChatInputComponent } from '../../components/chat-input/chat-input.compo
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      height: 100%;
+    }
+
     .chat-container {
       display: flex;
       justify-content: center;
       align-items: stretch;
-      height: 100vh;
+      height: 100%;
       padding: 16px;
       box-sizing: border-box;
       background: radial-gradient(ellipse at center top, #2a1a14 0%, #1a1410 70%);

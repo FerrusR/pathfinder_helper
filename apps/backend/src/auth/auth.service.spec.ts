@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
@@ -126,6 +126,44 @@ describe('AuthService', () => {
 
       expect(jwtService.sign).toHaveBeenCalledWith({ sub: 'user-1', email: 'test@example.com' });
       expect(result).toEqual({ accessToken: 'mock-jwt-token' });
+    });
+  });
+
+  describe('getInviteByToken', () => {
+    it('should return the email when invite is valid', async () => {
+      prisma.invite.findUnique.mockResolvedValue(mockInvite);
+
+      const result = await service.getInviteByToken('valid-token-uuid');
+
+      expect(prisma.invite.findUnique).toHaveBeenCalledWith({ where: { token: 'valid-token-uuid' } });
+      expect(result).toEqual({ email: 'test@example.com' });
+    });
+
+    it('should throw NotFoundException when token does not exist', async () => {
+      prisma.invite.findUnique.mockResolvedValue(null);
+
+      await expect(service.getInviteByToken('unknown-token')).rejects.toThrow(
+        new NotFoundException('Invite not found'),
+      );
+    });
+
+    it('should throw BadRequestException when invite has already been used', async () => {
+      prisma.invite.findUnique.mockResolvedValue({ ...mockInvite, usedAt: new Date() });
+
+      await expect(service.getInviteByToken('valid-token-uuid')).rejects.toThrow(
+        new BadRequestException('Invite token has already been used'),
+      );
+    });
+
+    it('should throw BadRequestException when invite is expired', async () => {
+      prisma.invite.findUnique.mockResolvedValue({
+        ...mockInvite,
+        expiresAt: new Date(Date.now() - 1000),
+      });
+
+      await expect(service.getInviteByToken('valid-token-uuid')).rejects.toThrow(
+        new BadRequestException('Invite token has expired'),
+      );
     });
   });
 

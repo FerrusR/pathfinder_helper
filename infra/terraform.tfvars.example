@@ -9,12 +9,6 @@ openai_location       = "eastus"
 db_admin_username     = "pgadmin"
 db_admin_password     = "YourSecurePassword123!"
 
-# Azure AD authentication (create an App Registration in Azure Portal first)
-# See plan docs for setup instructions
-azure_tenant_id          = "your-azure-tenant-id"
-azure_auth_client_id     = "your-app-registration-client-id"
-azure_auth_client_secret = "your-app-registration-client-secret"
-
 tags = {
   Project     = "Pathfinder Helper"
   Environment = "dev"
