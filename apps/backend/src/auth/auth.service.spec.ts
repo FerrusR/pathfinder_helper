@@ -124,8 +124,16 @@ describe('AuthService', () => {
 
       const result = await service.login(user);
 
-      expect(jwtService.sign).toHaveBeenCalledWith({ sub: 'user-1', email: 'test@example.com' });
-      expect(result).toEqual({ accessToken: 'mock-jwt-token' });
+      expect(jwtService.sign).toHaveBeenCalledWith({
+        sub: 'user-1',
+        email: 'test@example.com',
+        displayName: null,
+        role: 'PLAYER',
+      });
+      expect(result).toEqual({
+        accessToken: 'mock-jwt-token',
+        user: { id: 'user-1', email: 'test@example.com', displayName: null, role: 'PLAYER' },
+      });
     });
   });
 
@@ -197,7 +205,10 @@ describe('AuthService', () => {
         where: { id: 'invite-1' },
         data: { usedAt: expect.any(Date) },
       });
-      expect(result).toEqual({ accessToken: 'mock-jwt-token' });
+      expect(result).toEqual({
+        accessToken: 'mock-jwt-token',
+        user: { id: 'user-1', email: 'test@example.com', displayName: 'Test User', role: UserRole.PLAYER },
+      });
     });
 
     it('should throw BadRequestException when invite token is invalid', async () => {
