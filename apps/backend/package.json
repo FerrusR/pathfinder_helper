@@ -45,17 +45,17 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38"
   },
   "devDependencies": {
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.1.13",
-    "@types/bcrypt": "^5.0.2",
-    "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.5",
-    "@types/passport-jwt": "^4.0.1",
-    "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
