@@ -1,16 +1,16 @@
-output "openai_id" {
-  description = "Azure OpenAI resource ID"
-  value       = azurerm_cognitive_account.openai.id
+output "ai_foundry_id" {
+  description = "Azure AI Foundry resource ID"
+  value       = azurerm_cognitive_account.ai_foundry.id
 }
 
 output "endpoint" {
-  description = "Azure OpenAI endpoint"
-  value       = azurerm_cognitive_account.openai.endpoint
+  description = "Azure AI Foundry endpoint"
+  value       = azurerm_cognitive_account.ai_foundry.endpoint
 }
 
 output "primary_key" {
-  description = "Azure OpenAI primary key"
-  value       = azurerm_cognitive_account.openai.primary_access_key
+  description = "Azure AI Foundry primary key"
+  value       = azurerm_cognitive_account.ai_foundry.primary_access_key
   sensitive   = true
 }
 

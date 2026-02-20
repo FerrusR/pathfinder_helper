@@ -9,6 +9,7 @@ import { EmbeddingService } from './embedding.service';
 import { VectorSearchService } from './vector-search.service';
 import { RuleChunkResult } from './vector-search.service';
 import { ChatSseEvent, RuleSource } from '../types/chat.types';
+import { RequestUser } from '@/common/types/request-user.type';
 
 export interface ConversationMessage {
   role: 'user' | 'assistant';
@@ -44,15 +45,16 @@ export class ChatService implements OnModuleInit {
     this.logger.log('System prompt loaded from docs/prompts/chat-system-prompt.md');
   }
 
-  chat(message: string, conversationHistory: ConversationMessage[] = []): Observable<ChatSseEvent> {
+  chat(message: string, user: RequestUser, conversationHistory: ConversationMessage[] = []): Observable<ChatSseEvent> {
     return new Observable((subscriber) => {
-      this.processChat(message, conversationHistory, subscriber);
+      this.processChat(message, conversationHistory, user, subscriber);
     });
   }
 
   private async processChat(
     message: string,
     conversationHistory: ConversationMessage[],
+    user: RequestUser,
     subscriber: {
       next: (value: ChatSseEvent) => void;
       complete: () => void;
@@ -60,7 +62,7 @@ export class ChatService implements OnModuleInit {
     },
   ) {
     try {
-      this.logger.log(`Processing chat - message length: ${message.length}, history size: ${conversationHistory.length}`);
+      this.logger.log(`Processing chat - message length: ${message.length}, user: ${user.id}, history size: ${conversationHistory.length}`);
       this.logger.debug(`User message: "${message}"`);
 
       this.logger.log('Generating embedding for user query...');

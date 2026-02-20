@@ -69,7 +69,7 @@ Each feature lives in `apps/frontend/src/app/features/[feature]/`:
 - Backend: Jest — test files use `*.spec.ts` (unit) and `*.e2e-spec.ts` (E2E)
 - Frontend: Karma/Jasmine — test files use `*.spec.ts`; Cypress for E2E
 - CI blocks merge if tests fail
-- Run `npm run backend:test` and `npm run frontend:test` before pushing
+- Run `npm run backend:test` and `npm run frontend:test:headless` before pushing
 
 ## Important Rules
 

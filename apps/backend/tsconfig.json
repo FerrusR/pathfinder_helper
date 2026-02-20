@@ -48,7 +48,10 @@
 
     /* Completeness */
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+
+    /* Type roots — prevents @types/jasmine (frontend) bleeding in via monorepo node_modules */
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test"]

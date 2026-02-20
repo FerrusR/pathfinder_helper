@@ -18,17 +18,6 @@ variable "environment" {
   type        = string
 }
 
-variable "azure_auth_client_id" {
-  description = "Azure AD App Registration client ID for authentication"
-  type        = string
-}
-
-variable "azure_auth_client_secret" {
-  description = "Azure AD App Registration client secret for authentication"
-  type        = string
-  sensitive   = true
-}
-
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)

@@ -1,13 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { ChatApiService } from './chat-api.service';
 import { ChatEvent } from '../chat.types';
+import { AuthService } from '../../../core/services/auth.service';
 
 describe('ChatApiService', () => {
   let service: ChatApiService;
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    const mockAuthService = jasmine.createSpyObj<AuthService>('AuthService', ['getToken', 'logout']);
+    mockAuthService.getToken.and.returnValue(null);
+
+    TestBed.configureTestingModule({
+      providers: [{ provide: AuthService, useValue: mockAuthService }],
+    });
     service = TestBed.inject(ChatApiService);
     fetchSpy = spyOn(globalThis, 'fetch');
   });
