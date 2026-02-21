@@ -15,7 +15,8 @@ resource "azurerm_linux_web_app" "backend" {
   service_plan_id     = azurerm_service_plan.main.id
 
   site_config {
-    always_on = true
+    always_on        = true
+    app_command_line = "node dist/main"
 
     application_stack {
       node_version = "22-lts"
@@ -36,7 +37,7 @@ resource "azurerm_linux_web_app" "backend" {
     "AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME" = "text-embedding-3-small"
     "JWT_SECRET"                             = random_password.jwt_secret.result
     "JWT_EXPIRATION"                         = "7d"
-    "SCM_DO_BUILD_DURING_DEPLOYMENT"         = "true"
+    "SCM_DO_BUILD_DURING_DEPLOYMENT"         = "false"
     "FRONTEND_URL"                           = "https://${var.frontend_hostname}"
   }
 

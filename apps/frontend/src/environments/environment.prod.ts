@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '/api'
+  apiUrl: 'http://pathfinder-helper-dev-api.azurewebsites.net/api'
 };
