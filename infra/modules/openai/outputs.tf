@@ -23,3 +23,8 @@ output "embedding_deployment_name" {
   description = "Text embedding deployment name"
   value       = azurerm_cognitive_deployment.embedding.name
 }
+
+output "instance_name" {
+  description = "Azure OpenAI instance name (custom subdomain)"
+  value       = azurerm_cognitive_account.ai_foundry.custom_subdomain_name
+}

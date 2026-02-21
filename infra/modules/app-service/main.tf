@@ -35,6 +35,7 @@ resource "azurerm_linux_web_app" "backend" {
     "AZURE_OPENAI_ENDPOINT"                  = var.openai_endpoint
     "AZURE_OPENAI_DEPLOYMENT_NAME"           = "gpt-4o"
     "AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME" = "text-embedding-3-small"
+    "AZURE_OPENAI_API_INSTANCE_NAME"         = var.openai_instance_name
     "JWT_SECRET"                             = random_password.jwt_secret.result
     "JWT_EXPIRATION"                         = "7d"
     "SCM_DO_BUILD_DURING_DEPLOYMENT"         = "false"

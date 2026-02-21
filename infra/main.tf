@@ -86,7 +86,8 @@ module "app_service" {
   environment         = var.environment
   database_url        = module.database.connection_string
   openai_endpoint     = module.openai.endpoint
-  openai_key          = module.openai.primary_key
-  frontend_hostname   = module.static_web_app.default_hostname
+  openai_key           = module.openai.primary_key
+  openai_instance_name = module.openai.instance_name
+  frontend_hostname    = module.static_web_app.default_hostname
   tags                = var.tags
 }
