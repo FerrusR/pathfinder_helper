@@ -35,6 +35,11 @@ variable "openai_key" {
   sensitive   = true
 }
 
+variable "openai_instance_name" {
+  description = "Azure OpenAI instance name (subdomain of the endpoint, e.g. 'my-instance' from https://my-instance.openai.azure.com)"
+  type        = string
+}
+
 variable "frontend_hostname" {
   description = "Static Web App default hostname (without https://)"
   type        = string
