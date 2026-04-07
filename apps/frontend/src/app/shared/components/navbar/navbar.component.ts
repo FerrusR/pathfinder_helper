@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
   template: `
     @if (authService.currentUser$ | async; as user) {
       <mat-toolbar class="navbar">
-        <span class="app-title">Pathfinder Rule Explorer</span>
+        <a routerLink="/chat" class="app-title">Pathfinder Rule Explorer</a>
         <span class="spacer"></span>
         @if (user.role === 'ADMIN') {
           <a mat-button routerLink="/admin" class="nav-link">Admin</a>
@@ -34,6 +34,8 @@ import { AuthService } from '../../../core/services/auth.service';
       font-size: 16px;
       font-weight: 600;
       letter-spacing: 0.5px;
+      color: inherit;
+      text-decoration: none;
     }
 
     .spacer {
