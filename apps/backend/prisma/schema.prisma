@@ -55,6 +55,8 @@ model Campaign {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  deletedAt DateTime? @map("deleted_at")
+
   members   CampaignMember[]
   homeRules HomeRule[]
 
@@ -67,6 +69,8 @@ model CampaignMember {
   campaignId String       @map("campaign_id")
   role       CampaignRole
   joinedAt   DateTime     @default(now()) @map("joined_at")
+
+  deletedAt DateTime? @map("deleted_at")
 
   user     User     @relation(fields: [userId], references: [id])
   campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
@@ -88,13 +92,14 @@ model HomeRule {
   title           String
   content         String
   category        String?
-  overridesRuleId String?        @map("overrides_rule_id")
+  overridesRuleId String?        @map("overrides_rule_id") // Optional free-text fuzzy topic reference (not a foreign key)
   status          HomeRuleStatus @default(DRAFT)
   proposedBy      String         @map("proposed_by")
   proposer        User           @relation(fields: [proposedBy], references: [id])
   approvedBy      String?        @map("approved_by")
   createdAt       DateTime       @default(now()) @map("created_at")
   updatedAt       DateTime       @updatedAt @map("updated_at")
+  deletedAt       DateTime?      @map("deleted_at")
 
   @@map("home_rules")
 }
