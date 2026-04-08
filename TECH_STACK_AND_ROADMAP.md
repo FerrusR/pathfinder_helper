@@ -243,18 +243,18 @@ Use the **Foundry VTT PF2e JSON** as the primary source for the RAG pipeline. Wh
 ### Phase 3: Authentication & Authorization
 **Goal**: Invite-only auth system with RBAC
 
-- [ ] Database: Users, Invites, Roles tables
+- [x] Database: Users, Invites, Roles tables
   ```
   users: id, email, password_hash, display_name, role (admin), created_at
   invites: id, email, token, created_by, expires_at, used_at
   campaign_members: user_id, campaign_id, role (gamemaster|player)
   ```
-- [ ] Backend:
+- [x] Backend:
   - Auth module: login, token refresh, password change
   - Invite module: Admin creates invite → sends email/link → user registers via invite token
   - RBAC guards: `@Roles('admin')`, `@Roles('gamemaster')` decorators on endpoints
   - Global vs campaign-level role checks
-- [ ] Frontend:
+- [x] Frontend:
   - Login page
   - Register via invite link page
   - Admin: user management + invite sending UI
