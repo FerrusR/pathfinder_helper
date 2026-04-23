@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -111,6 +112,7 @@ export class HomeRulesController {
   }
 
   @Post(':id/approve')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Approve a home rule (GM or Admin)' })
   @ApiParam({ name: 'id', format: 'uuid' })
   @ApiResponse({ status: 200, description: 'Home rule approved' })
@@ -120,6 +122,7 @@ export class HomeRulesController {
   }
 
   @Post(':id/reject')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Reject a home rule (GM or Admin)' })
   @ApiParam({ name: 'id', format: 'uuid' })
   @ApiResponse({ status: 200, description: 'Home rule rejected' })

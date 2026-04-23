@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { ChatService } from '../src/chat/services/chat.service';
-import { EmbeddingService } from '../src/chat/services/embedding.service';
+import { EmbeddingService } from '../src/common/services/embedding.service';
 import { ChatSseEvent } from '../src/chat/types/chat.types';
 
 const testUser = {
@@ -44,7 +44,8 @@ describe('App (e2e)', () => {
       .overrideProvider(EmbeddingService)
       .useValue({
         onModuleInit: jest.fn(),
-        embedQuery: jest.fn().mockResolvedValue(Array(1536).fill(0)),
+        embed: jest.fn().mockResolvedValue(Array(1536).fill(0)),
+        embedBatch: jest.fn().mockResolvedValue([Array(1536).fill(0)]),
       })
       .overrideProvider(ChatService)
       .useValue(mockChatService)
