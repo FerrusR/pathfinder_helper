@@ -15,13 +15,19 @@ export class EmbeddingService implements OnModuleInit {
       azureOpenAIApiDeploymentName: this.configService.getOrThrow<string>(
         'AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME',
       ),
-      azureOpenAIApiInstanceName: this.configService.getOrThrow<string>('AZURE_OPENAI_API_INSTANCE_NAME'),
+      azureOpenAIApiInstanceName: this.configService.getOrThrow<string>(
+        'AZURE_OPENAI_API_INSTANCE_NAME',
+      ),
       azureOpenAIApiVersion: '2023-05-15',
       dimensions: 1536,
     });
   }
 
-  async embedQuery(text: string): Promise<number[]> {
+  async embed(text: string): Promise<number[]> {
     return this.embeddings.embedQuery(text);
+  }
+
+  async embedBatch(texts: string[]): Promise<number[][]> {
+    return this.embeddings.embedDocuments(texts);
   }
 }

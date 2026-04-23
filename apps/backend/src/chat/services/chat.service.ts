@@ -5,7 +5,7 @@ import { BaseMessage, HumanMessage, AIMessage, SystemMessage } from '@langchain/
 import { Observable } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
-import { EmbeddingService } from './embedding.service';
+import { EmbeddingService } from '../../common/services/embedding.service';
 import { VectorSearchService } from './vector-search.service';
 import { RuleChunkResult } from './vector-search.service';
 import { ChatSseEvent, RuleSource } from '../types/chat.types';
@@ -66,7 +66,7 @@ export class ChatService implements OnModuleInit {
       this.logger.debug(`User message: "${message}"`);
 
       this.logger.log('Generating embedding for user query...');
-      const embedding = await this.embeddingService.embedQuery(message);
+      const embedding = await this.embeddingService.embed(message);
       this.logger.log(`Embedding generated - dimensions: ${embedding.length}`);
 
       this.logger.log('Searching for relevant rule chunks...');

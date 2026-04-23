@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
 import { ChatModule } from './chat/chat.module';
+import { CommonModule } from './common/common.module';
 import { JwtAuthGuard } from './common/guards';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
@@ -16,6 +17,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
     }),
     PrismaModule,
+    CommonModule,
     AuthModule,
     ChatModule,
     UsersModule,

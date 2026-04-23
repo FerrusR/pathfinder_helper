@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom, toArray } from 'rxjs';
 import { ChatService, ConversationMessage } from './chat.service';
-import { EmbeddingService } from './embedding.service';
+import { EmbeddingService } from '../../common/services/embedding.service';
 import { VectorSearchService, RuleChunkResult } from './vector-search.service';
 import { ChatSseEvent } from '../types/chat.types';
 import { RequestUser } from '@/common/types/request-user.type';
