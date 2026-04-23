@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { CampaignsModule } from './campaigns/campaigns.module';
 import { ChatModule } from './chat/chat.module';
 import { JwtAuthGuard } from './common/guards';
 import { PrismaModule } from './prisma/prisma.module';
@@ -18,8 +19,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     ChatModule,
     UsersModule,
-    // Feature modules will be added here as they are implemented
-    // CampaignsModule,
+    CampaignsModule,
     // HomeRulesModule,
   ],
   controllers: [AppController],
