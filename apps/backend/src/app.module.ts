@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
+import { HomeRulesModule } from './home-rules/home-rules.module';
 import { ChatModule } from './chat/chat.module';
 import { CommonModule } from './common/common.module';
 import { JwtAuthGuard } from './common/guards';
@@ -22,7 +23,7 @@ import { UsersModule } from './users/users.module';
     ChatModule,
     UsersModule,
     CampaignsModule,
-    // HomeRulesModule,
+    HomeRulesModule,
   ],
   controllers: [AppController],
   providers: [
