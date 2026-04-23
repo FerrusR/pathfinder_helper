@@ -96,25 +96,21 @@ export class HomeRulesService {
 
     const wasApproved = rule.status === HomeRuleStatus.APPROVED;
 
-    const updated = await this.prisma.$transaction(async (tx) => {
-      if (wasApproved) {
-        await tx.homeRuleChunk.deleteMany({ where: { homeRuleId: id } });
-      }
+    if (wasApproved) {
+      await this.embeddingService.removeChunksForRule(id);
+    }
 
-      return tx.homeRule.update({
-        where: { id },
-        data: {
-          title: dto.title ?? rule.title,
-          content: dto.content ?? rule.content,
-          category: dto.category !== undefined ? dto.category : rule.category,
-          overridesRuleId:
-            dto.overridesRuleId !== undefined ? dto.overridesRuleId : rule.overridesRuleId,
-          ...(wasApproved ? { status: HomeRuleStatus.PROPOSED, approvedBy: null } : {}),
-        },
-      });
+    return this.prisma.homeRule.update({
+      where: { id },
+      data: {
+        title: dto.title ?? rule.title,
+        content: dto.content ?? rule.content,
+        category: dto.category !== undefined ? dto.category : rule.category,
+        overridesRuleId:
+          dto.overridesRuleId !== undefined ? dto.overridesRuleId : rule.overridesRuleId,
+        ...(wasApproved ? { status: HomeRuleStatus.PROPOSED, approvedBy: null } : {}),
+      },
     });
-
-    return updated;
   }
 
   async approve(id: string, user: RequestUser) {
@@ -148,12 +144,10 @@ export class HomeRulesService {
     const rule = await this.findById(id);
     await this.assertCanEdit(rule, user);
 
-    await this.prisma.$transaction(async (tx) => {
-      await tx.homeRuleChunk.deleteMany({ where: { homeRuleId: id } });
-      await tx.homeRule.update({
-        where: { id },
-        data: { deletedAt: new Date() },
-      });
+    await this.embeddingService.removeChunksForRule(id);
+    await this.prisma.homeRule.update({
+      where: { id },
+      data: { deletedAt: new Date() },
     });
   }
 
